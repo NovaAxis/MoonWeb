@@ -1,119 +1,282 @@
-import React from 'react'
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moon — Loader & Hub</title>
+  <meta name="description" content="Moon — интуитивный лаунчер и сайт с документацией. HTML / CSS / JS single-file." />
+  <style>
+    :root{
+      --bg:#0b1020; --card:#0f1724; --muted:#9aa4bf; --accent:#7c5cff; --glass:rgba(255,255,255,0.04);
+      --success:#4ade80; --danger:#fb7185; --mono: 'Segoe UI Mono', Consolas, monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#e6eef8;background:linear-gradient(180deg,#05060a 0%, var(--bg) 100%)}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:36px auto;padding:24px}
 
-// Moon Landing Page - single-file React component
-// Tailwind CSS classes are used (no import required in this canvas preview)
-// NOTE: This template is intentionally SAFE: it does NOT host or link to any exploits,
-// binaries, or instructions for cheating. It's a visual/branding clone for a harmless project.
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#3b82f6);display:grid;place-items:center;color:white;font-weight:700;box-shadow:0 6px 24px rgba(124,92,255,0.14)}
+    .brand h1{margin:0;font-size:18px}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
 
-export default function MoonLanding() {
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100 font-sans">
-      <header className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl font-bold">🌙</div>
-          <div>
-            <h1 className="text-2xl font-extrabold tracking-tight">Moon</h1>
-            <p className="text-sm text-slate-400">A clean UI landing page — template only</p>
+    nav{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:10px 14px;border-radius:10px;color:#e9f0ff;font-weight:600;cursor:pointer}
+    .btn:hover{transform:translateY(-2px)}
+    .primary{background:linear-gradient(90deg,var(--accent),#4f46e5);box-shadow:0 8px 30px rgba(79,70,229,0.12)}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;margin-top:28px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.03)}
+
+    .hero h2{margin:6px 0 8px;font-size:26px}
+    .hero p{margin:0;color:var(--muted)}
+
+    .features{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+    .feature{flex:1 1 160px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    .feature h4{margin:0 0 6px}
+    .muted{color:var(--muted);font-size:13px}
+
+    .right .panel{display:flex;flex-direction:column;gap:12px}
+    .download{display:flex;gap:8px;align-items:center}
+    .download .big{padding:12px 14px;border-radius:12px;font-weight:700}
+    .key{background:rgba(0,0,0,0.25);padding:10px;border-radius:10px;font-family:var(--mono);display:flex;gap:8px;align-items:center;justify-content:space-between}
+
+    .specs{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+    .spec{background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;min-width:110px}
+
+    main section{margin-top:22px}
+
+    .faq{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .faq .qa{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px}
+
+    footer{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);display:flex;justify-content:space-between;align-items:center}
+
+    /* responsive */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr;}
+      .faq{grid-template-columns:1fr}
+      .container{padding:16px}
+    }
+
+    /* small helper */
+    .tiny{font-size:12px;color:var(--muted)}
+    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">M</div>
+        <div>
+          <h1>Moon</h1>
+          <p>Лаунчер • Документация • Центр</p>
+        </div>
+      </div>
+      <nav>
+        <button class="btn" id="themeBtn">Тема</button>
+        <a class="btn" href="#docs">Docs</a>
+        <button class="btn primary" id="downloadBtn">Скачать</button>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div class="card">
+        <h2>Moon — лёгкий и быстрый лаунчер</h2>
+        <p>Современная страница документации и загрузки. Всё сделано на чистом HTML/CSS/JS, адаптивно и с фокусом на UX.</p>
+
+        <div class="features" style="margin-top:18px">
+          <div class="feature">
+            <h4>Простая установка</h4>
+            <div class="muted">Несколько кликов и готово.</div>
+          </div>
+          <div class="feature">
+            <h4>Интерактивная документация</h4>
+            <div class="muted">Примеры и быстрые подсказки.</div>
+          </div>
+          <div class="feature">
+            <h4>Без лишнего</h4>
+            <div class="muted">Минимализм и скорость.</div>
           </div>
         </div>
-        <nav className="flex items-center gap-4">
-          <a className="text-sm text-slate-300 hover:text-white" href="#features">Features</a>
-          <a className="text-sm text-slate-300 hover:text-white" href="#window">Window</a>
-          <a className="text-sm text-slate-300 hover:text-white" href="#faq">FAQ</a>
-          <button className="ml-2 rounded-md bg-white/6 px-3 py-1 text-sm">Get in touch</button>
-        </nav>
-      </header>
 
-      <main className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <section>
-          <h2 className="text-4xl font-extrabold leading-tight">Moon — clean UI for your project</h2>
-          <p className="mt-4 text-slate-300">This is a lightweight, modern landing page template styled with Tailwind. Use it to present your project, downloads, docs, changelog, and more — without distributing unsafe files.</p>
+        <div style="margin-top:18px">
+          <h3 style="margin:0 0 8px">Что нового</h3>
+          <ul class="muted" style="margin:0;padding-left:18px">
+            <li>Новый интерфейс авторизации (ключи/токены)</li>
+            <li>Документация API и быстрые примеры</li>
+            <li>Тёмная тема и тёмные карточки</li>
+          </ul>
+        </div>
 
-          <div className="mt-6 flex gap-3">
-            <a className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium hover:bg-white/12" href="#window">Open Window</a>
-            <a className="inline-flex items-center gap-2 rounded-lg border border-white/6 px-4 py-2 text-sm text-slate-300" href="#features">Learn more</a>
+      </div>
+
+      <aside class="right">
+        <div class="card panel">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="tiny">Текущая версия</div>
+              <div style="font-weight:800">v1.0.0</div>
+            </div>
+            <div class="pill">Stable</div>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 bg-white/3 rounded-lg">
-              <h3 className="font-semibold">Static & Fast</h3>
-              <p className="text-sm text-slate-300 mt-1">Optimized for Vercel / Netlify as a static site.</p>
-            </div>
-            <div className="p-4 bg-white/3 rounded-lg">
-              <h3 className="font-semibold">Accessible</h3>
-              <p className="text-sm text-slate-300 mt-1">Keyboard friendly, mobile-ready, and responsive.</p>
+          <div class="download" style="margin-top:12px">
+            <button class="btn big primary" id="btnDownload">Скачать Moon</button>
+            <div class="key" style="min-width:160px">
+              <span id="keyText">— — — — — —</span>
+              <button class="btn tiny" id="copyKey">Copy</button>
             </div>
           </div>
 
-          <div className="mt-6 text-xs text-yellow-300">Note: This template does not provide downloads, installers, or scripts. It is a visual site only.</div>
-        </section>
-
-        <aside id="window" className="flex justify-center">
-          <div className="w-full max-w-md bg-slate-800/60 border border-white/6 rounded-2xl p-4 shadow-2xl">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-red-500" />
-                <span className="w-3 h-3 rounded-full bg-yellow-400" />
-                <span className="w-3 h-3 rounded-full bg-green-500" />
-              </div>
-              <div className="text-xs text-slate-400">v1.0.0</div>
-            </div>
-
-            {/* Window content area - replace the placeholder with your provided window UI image or embed */}
-            <div className="h-64 bg-gradient-to-b from-slate-900 to-slate-700 rounded-lg flex items-center justify-center text-slate-400 text-sm">
-              Window preview (drop your image or embed here)
-            </div>
-
-            <div className="mt-4 flex justify-between items-center">
-              <div className="text-xs text-slate-400">Status: Demo</div>
-              <div className="flex gap-2">
-                <button disabled className="px-3 py-1 text-xs rounded bg-white/6">Download</button>
-                <a href="#faq" className="px-3 py-1 text-xs rounded border border-white/6">Help</a>
-              </div>
-            </div>
+          <div class="specs">
+            <div class="spec"><div class="tiny">Размер</div><div style="font-weight:700">8.9 MB</div></div>
+            <div class="spec"><div class="tiny">OS</div><div style="font-weight:700">Windows / macOS</div></div>
+            <div class="spec"><div class="tiny">Поддержка</div><div style="font-weight:700">24/7</div></div>
           </div>
-        </aside>
-      </main>
 
-      <section id="features" className="max-w-6xl mx-auto px-6 py-8">
-        <h3 className="text-2xl font-bold">Features</h3>
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 bg-white/3 rounded-lg">
-            <h4 className="font-semibold">Branding</h4>
-            <p className="text-sm text-slate-300 mt-1">Custom logo, colors, and type scale.</p>
-          </div>
-          <div className="p-4 bg-white/3 rounded-lg">
-            <h4 className="font-semibold">Docs-ready</h4>
-            <p className="text-sm text-slate-300 mt-1">Make a simple docs page or link to GitHub.</p>
-          </div>
-          <div className="p-4 bg-white/3 rounded-lg">
-            <h4 className="font-semibold">Static export</h4>
-            <p className="text-sm text-slate-300 mt-1">Works with static host platforms.</p>
+          <div style="margin-top:10px" class="muted tiny">Нажмите «Скачать Moon», чтобы начать загрузку. Это демонстрационный шаблон — замените ссылки на реальные файлы перед публикацией.</div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h4 style="margin:0 0 8px">Быстрые ссылки</h4>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <a class="btn" href="#docs">Документация</a>
+            <a class="btn" href="#faq">FAQ</a>
+            <a class="btn" href="#contact">Связаться</a>
           </div>
         </div>
-      </section>
-
-      <section id="faq" className="max-w-6xl mx-auto px-6 py-8">
-        <h3 className="text-2xl font-bold">FAQ</h3>
-        <div className="mt-4 space-y-3 text-slate-300">
-          <div>
-            <strong>Q:</strong> Can I provide downloads here?
-            <div className="text-sm text-slate-400">A: This template intentionally omits any download links. If you need a download area for safe, legal files, we can design one that includes virus-scanning notices and requires authentication.</div>
-          </div>
-
-          <div>
-            <strong>Q:</strong> How do I deploy?
-            <div className="text-sm text-slate-400">A: Recommended: export as a static build and deploy to Vercel or Netlify. Comments at the top include basic steps.</div>
-          </div>
-        </div>
-      </section>
-
-      <footer className="mt-12 border-t border-white/6 py-6">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between text-sm text-slate-500">
-          <div>© Moon • Template — {new Date().getFullYear()}</div>
-          <div>Made with care — safe & legal</div>
-        </div>
-      </footer>
+      </aside>
     </div>
-  )
-}
+
+    <main>
+      <section id="docs">
+        <div class="card">
+          <h3>Документация</h3>
+          <p class="muted">Несколько примеров того, как структурировать документацию прямо на странице.</p>
+
+          <pre style="background:rgba(0,0,0,0.25);padding:12px;border-radius:10px;margin-top:12px;color:#e6eef8;overflow:auto;font-family:var(--mono);font-size:13px">// Пример: Проверка версии
+fetch('/api/version')
+  .then(r=>r.json())
+  .then(json=>console.log('version', json.version))
+</pre>
+
+          <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+            <div class="feature">
+              <h4>API</h4>
+              <div class="muted">Endpoint, примеры запросов и ответы.</div>
+            </div>
+            <div class="feature">
+              <h4>Установка</h4>
+              <div class="muted">Пошаговая инструкция установки и устранения ошибок.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="card" style="margin-top:14px">
+          <h3>Часто задаваемые вопросы</h3>
+          <div class="faq" style="margin-top:12px">
+            <div class="qa">
+              <b>Как установить?</b>
+              <div class="muted" style="margin-top:6px">Скачайте архив и следуйте инструкции в README.</div>
+            </div>
+            <div class="qa">
+              <b>Нужен ли ключ?</b>
+              <div class="muted" style="margin-top:6px">В этом шаблоне предусмотрена работа с ключом — замените генерацию на серверную, если нужен реальный ключ.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="card" style="margin-top:14px">
+          <h3 id="contact">Контакты</h3>
+          <p class="muted">Есть вопросы? Напишите короткое сообщение.</p>
+          <form id="contactForm" style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+            <input type="text" placeholder="Ваш ник или имя" id="name" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" required>
+            <input type="email" placeholder="Email" id="email" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit">
+            <textarea placeholder="Сообщение" id="message" rows="4" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"></textarea>
+            <div style="display:flex;gap:8px">
+              <button class="btn primary" type="submit">Отправить</button>
+              <button class="btn" type="reset">Очистить</button>
+            </div>
+            <div id="formResult" class="tiny muted"></div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="tiny">© Moon — 2025. Создано на HTML/CSS/JS.</div>
+      <div class="tiny">Версия <strong>v1.0.0</strong></div>
+    </footer>
+  </div>
+
+  <script>
+    // Theme toggle (simple demo)
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', ()=>{
+      if(document.documentElement.style.getPropertyValue('--bg') === '#0b1020'){
+        document.documentElement.style.setProperty('--bg','#f6f8fb');
+        document.documentElement.style.setProperty('--card','#ffffff');
+        document.documentElement.style.setProperty('--muted','#42516a');
+        document.documentElement.style.setProperty('--accent','#7c5cff');
+      } else {
+        document.documentElement.style.setProperty('--bg','#0b1020');
+        document.documentElement.style.setProperty('--card','#0f1724');
+        document.documentElement.style.setProperty('--muted','#9aa4bf');
+      }
+    });
+
+    // Fake key generation (replace with server-side in production)
+    function genKey(){
+      const chunks = [];
+      for(let i=0;i<5;i++){
+        chunks.push(Math.random().toString(36).substring(2,7).toUpperCase());
+      }
+      return chunks.join('-');
+    }
+
+    const keyText = document.getElementById('keyText');
+    const copyKey = document.getElementById('copyKey');
+    document.getElementById('btnDownload').addEventListener('click', ()=>{
+      // simulate download
+      keyText.textContent = genKey();
+      // start a fake file download for demo purposes
+      const blob = new Blob(["This is a demo file for Moon."],{type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'moon-demo.txt';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    copyKey.addEventListener('click', ()=>{
+      const text = keyText.textContent;
+      navigator.clipboard?.writeText(text).then(()=>{
+        copyKey.textContent = 'Copied';
+        setTimeout(()=>copyKey.textContent='Copy',900);
+      }).catch(()=>{
+        alert('Не удалось скопировать');
+      })
+    });
+
+    // Contact form (demo only)
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const res = document.getElementById('formResult');
+      res.textContent = 'Сообщение отправлено (демо). Спасибо!';
+      form.reset();
+    });
+
+    // Small accessibility: focus outline
+    document.addEventListener('keyup', (e)=>{
+      if(e.key === 'Tab') document.body.classList.add('show-focus');
+    });
+  </script>
+</body>
+</html>
