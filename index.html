@@ -121,6 +121,8 @@
     animation: fadeIn 1.5s ease;
   }
 
+  .muted { color: var(--muted); font-size: 13px; }
+
   .preview-section {
     margin-top: 40px;
     position: relative;
@@ -143,9 +145,8 @@
     width: 100%;
     border-radius: 16px;
     box-shadow: 0 0 40px rgba(124, 92, 255, 0.6);
-    animation: levitate 3s ease-in-out infinite 3s;
+    animation: levitate 3s ease-in-out infinite 3s, cloudReveal 3s ease forwards;
     opacity: 0;
-    animation: cloudReveal 3s ease forwards;
   }
 
   @keyframes cloudReveal {
@@ -226,14 +227,6 @@
     50% { opacity: 1; transform: scale(1.2); }
     100% { opacity: 0; transform: scale(1.5); }
   }
-
-  .faq-container {
-    display: grid;
-    gap: 14px;
-    margin-top: 20px;
-  }
-  
-  .muted { color: var(--muted); font-size: 13px; }
 
   .faq-container {
     display: grid;
@@ -321,6 +314,16 @@
         <a class="btn big primary" href="https://github.com/NovaAxis/MoonWeb/raw/refs/heads/main/Moon.zip" style="margin-top:12px;display:inline-block;text-align:center;">Download Moon</a>
       </div>
     </aside>
+  </div>
+
+  <div class="preview-section">
+    <div class="preview-container">
+      <div class="cloud cloud1"></div>
+      <div class="cloud cloud2"></div>
+      <div class="cloud cloud3"></div>
+      <div class="glow-effect"></div>
+      <img src="MoonPreview.png" alt="Moon Preview" class="preview-img">
+    </div>
   </div>
 
   <main>
@@ -431,4 +434,3 @@
 </script>
 </body>
 </html>
-
