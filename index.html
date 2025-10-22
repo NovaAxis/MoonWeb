@@ -7,110 +7,164 @@
 <meta name="description" content="Moon — fast modern loader with QuorumAPI (Xeno) support." />
 <style>
   :root {
-    --bg1:#050510;--bg2:#0b0f25;--accent:#7c5cff;--muted:#9aa4bf;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    overflow-x:hidden;
-    color:#e6eef8;
-    font-family:Inter,system-ui,sans-serif;
-    background:linear-gradient(180deg,var(--bg1),var(--bg2));
-    opacity:0;
-    transition:opacity 1s ease;
-  }
-  body.loaded{opacity:1}
-
-  /* === PRELOADER === */
-  #preloader{
-    position:fixed;top:0;left:0;width:100%;height:100%;
-    background:#050510;
-    display:flex;flex-direction:column;justify-content:center;align-items:center;
-    z-index:9999;
-    transition:opacity .8s ease,visibility .8s ease;
-  }
-  #preloader.fade-out{opacity:0;visibility:hidden}
-  #preloader h1{
-    font-size:26px;color:#fff;
-    text-shadow:0 0 20px rgba(124,92,255,.8);
-    margin-bottom:12px;
-  }
-  #progress{
-    font-size:18px;
-    color:#7c5cff;
-    text-shadow:0 0 10px rgba(124,92,255,.6);
-    letter-spacing:1px;
+    --bg1: #050510;
+    --bg2: #0b0f25;
+    --accent: #7c5cff;
+    --muted: #9aa4bf;
   }
 
-  canvas#particles{
-    position:fixed;top:0;left:0;width:100%;height:100%;
-    z-index:0;
-    background:radial-gradient(circle at 20% 20%,#0c1028,#050510 90%);
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    height: 100vh;
+    overflow-x: hidden;
+    color: #e6eef8;
+    font-family: Inter, system-ui, sans-serif;
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+    animation: fadeIn 1.4s ease forwards;
   }
 
-  .container{
-    position:relative;z-index:1;max-width:1100px;
-    margin:40px auto;padding:24px;
-    animation:fadeIn 1.4s ease forwards;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-
-  header{display:flex;justify-content:space-between;align-items:center;gap:16px}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo{
-    width:64px;height:64px;border-radius:16px;
-    background:radial-gradient(circle,rgba(124,92,255,.2),transparent 60%);
-    box-shadow:0 0 25px rgba(124,92,255,.4);
-    display:grid;place-items:center;
-  }
-  .logo img{width:56px;height:56px;border-radius:12px;filter:drop-shadow(0 0 15px rgba(124,92,255,.6))}
-
-  nav{display:flex;gap:10px;align-items:center}
-  .btn{
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.08);
-    padding:10px 16px;border-radius:12px;
-    font-weight:600;color:#fff;cursor:pointer;
-    transition:all .25s ease;text-decoration:none;
-  }
-  .btn:hover{box-shadow:0 0 16px rgba(124,92,255,.5);transform:translateY(-2px)}
-  .primary{background:linear-gradient(90deg,var(--accent),#4f46e5);box-shadow:0 0 25px rgba(124,92,255,.35)}
-
-  .hero{display:grid;grid-template-columns:1fr 400px;gap:28px;margin-top:40px}
-  .card{
-    background:rgba(255,255,255,.03);
-    border-radius:16px;border:1px solid rgba(255,255,255,.05);
-    padding:24px;backdrop-filter:blur(6px);
+  canvas#particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: radial-gradient(circle at 20% 20%, #0c1028, #050510 90%);
   }
 
-  .muted{color:var(--muted);font-size:13px}
-
-  .faq-container{display:grid;gap:14px;margin-top:20px}
-  .faq-card{
-    background:rgba(255,255,255,.03);
-    border:1px solid rgba(255,255,255,.05);
-    border-radius:14px;padding:16px 18px;transition:all .25s ease;
-  }
-  .faq-card:hover{box-shadow:0 0 15px rgba(124,92,255,.4);transform:translateY(-2px)}
-  .faq-card b{font-size:15px;color:#fff}
-
-  footer{
-    margin-top:40px;padding:18px;background:rgba(255,255,255,.02);
-    border-radius:12px;display:flex;justify-content:space-between;
-    color:var(--muted);font-size:12px;
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 24px;
+    animation: fadeIn 1.4s ease forwards;
   }
 
-  @media(max-width:880px){.hero{grid-template-columns:1fr}.container{padding:16px}}
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.2), transparent 60%);
+    box-shadow: 0 0 25px rgba(124, 92, 255, 0.4);
+    display: grid;
+    place-items: center;
+  }
+
+  .logo img {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    filter: drop-shadow(0 0 15px rgba(124, 92, 255, 0.6));
+  }
+
+  nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: all .25s ease;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    box-shadow: 0 0 16px rgba(124, 92, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .primary {
+    background: linear-gradient(90deg, var(--accent), #4f46e5);
+    box-shadow: 0 0 25px rgba(124, 92, 255, 0.35);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 28px;
+    margin-top: 40px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 24px;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 1.5s ease;
+  }
+
+  .muted { color: var(--muted); font-size: 13px; }
+
+  .faq-container {
+    display: grid;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .faq-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 14px;
+    padding: 16px 18px;
+    transition: all .25s ease;
+  }
+
+  .faq-card:hover {
+    box-shadow: 0 0 15px rgba(124, 92, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .faq-card b {
+    font-size: 15px;
+    color: #fff;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding: 18px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width:880px){
+    .hero { grid-template-columns: 1fr; }
+    .container { padding: 16px; }
+  }
 </style>
 </head>
 <body>
-
-<!-- PRELOADER -->
-<div id="preloader">
-  <h1>Moon Loading...</h1>
-  <div id="progress">0%</div>
-</div>
-
 <canvas id="particles"></canvas>
 
 <div class="container">
@@ -149,7 +203,7 @@
             <div class="muted" style="font-size:12px">Current version</div>
             <div style="font-weight:800">v1.0.0</div>
           </div>
-          <div style="padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.03);font-weight:700">Stable</div>
+          <div style="padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700">Stable</div>
         </div>
         <div class="muted" style="margin-top:14px">Size: 18.1 MB | OS: Windows</div>
         <a class="btn big primary" href="https://github.com/NovaAxis/MoonWeb/raw/refs/heads/main/Moon.zip" style="margin-top:12px;display:inline-block;text-align:center;">Download Moon</a>
@@ -162,10 +216,30 @@
       <div class="card" style="margin-top:20px">
         <h3>Frequently Asked Questions</h3>
         <div class="faq-container">
-          <div class="faq-card"><b>How to download and run Moon?</b><div class="muted" style="margin-top:6px">Click <strong>Download Moon</strong>, extract the ZIP file, then run <strong>Moon.exe</strong>.</div></div>
-          <div class="faq-card"><b>Does Moon have a Key System?</b><div class="muted" style="margin-top:6px">No. Moon is fully <strong>free</strong> — no key system, no CC, 100% safe.</div></div>
-          <div class="faq-card"><b>What API does Moon use?</b><div class="muted" style="margin-top:6px">Moon is based on <strong>QuorumAPI (Xeno)</strong>. Trusted and stable integration.</div></div>
-          <div class="faq-card"><b>Is Moon malware?</b><div class="muted" style="margin-top:6px">No. Moon is completely safe. Any antivirus alerts are false positives due to API encryption.</div></div>
+          <div class="faq-card">
+            <b>How to download and run Moon?</b>
+            <div class="muted" style="margin-top:6px">
+              Click <strong>Download Moon</strong>, extract the ZIP file, then run <strong>Moon.exe</strong>.
+            </div>
+          </div>
+          <div class="faq-card">
+            <b>Does Moon have a Key System?</b>
+            <div class="muted" style="margin-top:6px">
+              No. Moon is fully <strong>free</strong> — no key system, no CC, 100% safe.
+            </div>
+          </div>
+          <div class="faq-card">
+            <b>What API does Moon use?</b>
+            <div class="muted" style="margin-top:6px">
+              Moon is based on <strong>QuorumAPI (Xeno)</strong>. Trusted and stable integration.
+            </div>
+          </div>
+          <div class="faq-card">
+            <b>Is Moon malware?</b>
+            <div class="muted" style="margin-top:6px">
+              No. Moon is completely safe. Any antivirus alerts are false positives due to API encryption.
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -178,55 +252,71 @@
 </div>
 
 <script>
-  // === Preloader ===
-  const preloader=document.getElementById("preloader");
-  const progress=document.getElementById("progress");
-  let percent=0;
-  const duration=Math.random()*2000+1000; // 1–3s
-
-  const interval=setInterval(()=>{
-    percent+=Math.random()*8;
-    if(percent>=100){
-      percent=100;
-      clearInterval(interval);
-      preloader.classList.add("fade-out");
-      document.body.classList.add("loaded");
-      setTimeout(()=>preloader.remove(),800);
-    }
-    progress.textContent=Math.floor(percent)+"%";
-  },duration/30);
-
-  // === Particles ===
-  const canvas=document.getElementById('particles');
-  const ctx=canvas.getContext('2d');
+  // Particle background
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
   let particlesArray;
-  const colors=['#7c5cff','#a78bfa','#4f46e5'];
-  canvas.width=innerWidth;canvas.height=innerHeight;
-  window.addEventListener('resize',()=>{canvas.width=innerWidth;canvas.height=innerHeight;init();});
-  class Particle{
-    constructor(x,y,dx,dy,s,c){this.x=x;this.y=y;this.dx=dx;this.dy=dy;this.s=s;this.c=c;}
-    draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,Math.PI*2,false);ctx.shadowBlur=20;ctx.shadowColor=this.c;ctx.fillStyle=this.c;ctx.fill();}
-    update(){if(this.x>canvas.width||this.x<0)this.dx=-this.dx;if(this.y>canvas.height||this.y<0)this.dy=-this.dy;this.x+=this.dx;this.y+=this.dy;this.draw();}
-  }
-  function init(){
-    particlesArray=[];
-    const num=Math.floor((canvas.width*canvas.height)/15000);
-    for(let i=0;i<num;i++){
-      let s=Math.random()*2+1;
-      let x=Math.random()*(innerWidth-s*2);
-      let y=Math.random()*(innerHeight-s*2);
-      let dx=(Math.random()-.5)*0.6;
-      let dy=(Math.random()-.5)*0.6;
-      let c=colors[Math.floor(Math.random()*colors.length)];
-      particlesArray.push(new Particle(x,y,dx,dy,s,c));
+  const colors = ['#7c5cff', '#a78bfa', '#4f46e5'];
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+
+  window.addEventListener('resize', () => {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+    init();
+  });
+
+  class Particle {
+    constructor(x, y, directionX, directionY, size, color) {
+      this.x = x;
+      this.y = y;
+      this.directionX = directionX;
+      this.directionY = directionY;
+      this.size = size;
+      this.color = color;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = this.color;
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+    update() {
+      if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+      if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+      this.x += this.directionX;
+      this.y += this.directionY;
+      this.draw();
     }
   }
-  function animate(){
-    requestAnimationFrame(animate);
-    ctx.clearRect(0,0,innerWidth,innerHeight);
-    for(let i=0;i<particlesArray.length;i++){particlesArray[i].update();}
+
+  function init() {
+    particlesArray = [];
+    const num = Math.floor((canvas.width * canvas.height) / 15000);
+    for (let i = 0; i < num; i++) {
+      let size = Math.random() * 2 + 1;
+      let x = Math.random() * (innerWidth - size * 2);
+      let y = Math.random() * (innerHeight - size * 2);
+      let directionX = (Math.random() - 0.5) * 0.6;
+      let directionY = (Math.random() - 0.5) * 0.6;
+      let color = colors[Math.floor(Math.random() * colors.length)];
+      particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+    }
   }
-  init();animate();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    for (let i = 0; i < particlesArray.length; i++) {
+      particlesArray[i].update();
+    }
+  }
+
+  init();
+  animate();
 </script>
 </body>
 </html>
+
