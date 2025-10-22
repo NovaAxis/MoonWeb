@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Moon — Loader & Hub</title>
-  <meta name="description" content="Moon — интуитивный лаунчер и сайт с документацией. HTML / CSS / JS single-file." />
+  <meta name="description" content="Moon — fast modern loader with QuorumAPI (Xeno) support." />
   <style>
     :root{
       --bg:#0b1020; --card:#0f1724; --muted:#9aa4bf; --accent:#7c5cff; --glass:rgba(255,255,255,0.04);
-      --success:#4ade80; --danger:#fb7185; --mono: 'Segoe UI Mono', Consolas, monospace;
+      --mono: 'Segoe UI Mono', Consolas, monospace;
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#e6eef8;background:linear-gradient(180deg,#05060a 0%, var(--bg) 100%)}
@@ -40,7 +40,6 @@
     .right .panel{display:flex;flex-direction:column;gap:12px}
     .download{display:flex;gap:8px;align-items:center}
     .download .big{padding:12px 14px;border-radius:12px;font-weight:700}
-    .key{background:rgba(0,0,0,0.25);padding:10px;border-radius:10px;font-family:var(--mono);display:flex;gap:8px;align-items:center;justify-content:space-between}
 
     .specs{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
     .spec{background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;min-width:110px}
@@ -52,14 +51,12 @@
 
     footer{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);display:flex;justify-content:space-between;align-items:center}
 
-    /* responsive */
     @media (max-width:880px){
       .hero{grid-template-columns:1fr;}
       .faq{grid-template-columns:1fr}
       .container{padding:16px}
     }
 
-    /* small helper */
     .tiny{font-size:12px;color:var(--muted)}
     .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700}
   </style>
@@ -71,42 +68,41 @@
         <div class="logo">M</div>
         <div>
           <h1>Moon</h1>
-          <p>Лаунчер • Документация • Центр</p>
+          <p>Loader • Documentation • Hub</p>
         </div>
       </div>
       <nav>
-        <button class="btn" id="themeBtn">Тема</button>
         <a class="btn" href="#docs">Docs</a>
-        <button class="btn primary" id="downloadBtn">Скачать</button>
+        <a class="btn primary" href="https://github.com/NovaAxis/MoonWeb/raw/refs/heads/main/Moon.zip">Download</a>
       </nav>
     </header>
 
     <div class="hero">
       <div class="card">
-        <h2>Moon — лёгкий и быстрый лаунчер</h2>
-        <p>Современная страница документации и загрузки. Всё сделано на чистом HTML/CSS/JS, адаптивно и с фокусом на UX.</p>
+        <h2>Moon — Fast & Modern UI</h2>
+        <p>Everything is well built, based on trusted API, supports all scripts, and the download link is real and direct.</p>
 
         <div class="features" style="margin-top:18px">
           <div class="feature">
-            <h4>Простая установка</h4>
-            <div class="muted">Несколько кликов и готово.</div>
+            <h4>95% UNC & 92% sUNC</h4>
+            <div class="muted">Supports all scripts.</div>
           </div>
           <div class="feature">
-            <h4>Интерактивная документация</h4>
-            <div class="muted">Примеры и быстрые подсказки.</div>
+            <h4><a href="https://discord.gg/5Tfhd8P7b2" target="_blank" style="color:var(--accent)">Moon based on QuorumAPI (Xeno)</a></h4>
+            <div class="muted">Trusted and stable integration.</div>
           </div>
           <div class="feature">
-            <h4>Без лишнего</h4>
-            <div class="muted">Минимализм и скорость.</div>
+            <h4>Clean Interface</h4>
+            <div class="muted">Minimalistic and fast.</div>
           </div>
         </div>
 
         <div style="margin-top:18px">
-          <h3 style="margin:0 0 8px">Что нового</h3>
+          <h3 style="margin:0 0 8px">What's new</h3>
           <ul class="muted" style="margin:0;padding-left:18px">
-            <li>Новый интерфейс авторизации (ключи/токены)</li>
-            <li>Документация API и быстрые примеры</li>
-            <li>Тёмная тема и тёмные карточки</li>
+            <li>New UI with improved design</li>
+            <li>Full QuorumAPI (Xeno) support</li>
+            <li>Clean and responsive interface</li>
           </ul>
         </div>
 
@@ -116,35 +112,27 @@
         <div class="card panel">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
-              <div class="tiny">Текущая версия</div>
+              <div class="tiny">Current version</div>
               <div style="font-weight:800">v1.0.0</div>
             </div>
             <div class="pill">Stable</div>
           </div>
 
           <div class="download" style="margin-top:12px">
-            <button class="btn big primary" id="btnDownload">Скачать Moon</button>
-            <div class="key" style="min-width:160px">
-              <span id="keyText">— — — — — —</span>
-              <button class="btn tiny" id="copyKey">Copy</button>
-            </div>
+            <a class="btn big primary" href="https://github.com/NovaAxis/MoonWeb/raw/refs/heads/main/Moon.zip">Download Moon</a>
           </div>
 
           <div class="specs">
-            <div class="spec"><div class="tiny">Размер</div><div style="font-weight:700">8.9 MB</div></div>
-            <div class="spec"><div class="tiny">OS</div><div style="font-weight:700">Windows / macOS</div></div>
-            <div class="spec"><div class="tiny">Поддержка</div><div style="font-weight:700">24/7</div></div>
+            <div class="spec"><div class="tiny">Size</div><div style="font-weight:700">8.9 MB</div></div>
+            <div class="spec"><div class="tiny">OS</div><div style="font-weight:700">Windows</div></div>
           </div>
-
-          <div style="margin-top:10px" class="muted tiny">Нажмите «Скачать Moon», чтобы начать загрузку. Это демонстрационный шаблон — замените ссылки на реальные файлы перед публикацией.</div>
         </div>
 
         <div class="card" style="margin-top:12px">
-          <h4 style="margin:0 0 8px">Быстрые ссылки</h4>
+          <h4 style="margin:0 0 8px">Quick Links</h4>
           <div style="display:flex;flex-direction:column;gap:8px">
-            <a class="btn" href="#docs">Документация</a>
+            <a class="btn" href="#docs">Documentation</a>
             <a class="btn" href="#faq">FAQ</a>
-            <a class="btn" href="#contact">Связаться</a>
           </div>
         </div>
       </aside>
@@ -153,10 +141,10 @@
     <main>
       <section id="docs">
         <div class="card">
-          <h3>Документация</h3>
-          <p class="muted">Несколько примеров того, как структурировать документацию прямо на странице.</p>
+          <h3>Documentation</h3>
+          <p class="muted">Quick example of how to structure documentation right on the page.</p>
 
-          <pre style="background:rgba(0,0,0,0.25);padding:12px;border-radius:10px;margin-top:12px;color:#e6eef8;overflow:auto;font-family:var(--mono);font-size:13px">// Пример: Проверка версии
+          <pre style="background:rgba(0,0,0,0.25);padding:12px;border-radius:10px;margin-top:12px;color:#e6eef8;overflow:auto;font-family:var(--mono);font-size:13px">// Example: Check version
 fetch('/api/version')
   .then(r=>r.json())
   .then(json=>console.log('version', json.version))
@@ -165,11 +153,11 @@ fetch('/api/version')
           <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
             <div class="feature">
               <h4>API</h4>
-              <div class="muted">Endpoint, примеры запросов и ответы.</div>
+              <div class="muted">Endpoints, request examples, and responses.</div>
             </div>
             <div class="feature">
-              <h4>Установка</h4>
-              <div class="muted">Пошаговая инструкция установки и устранения ошибок.</div>
+              <h4>Setup</h4>
+              <div class="muted">Step-by-step install and troubleshooting.</div>
             </div>
           </div>
         </div>
@@ -177,106 +165,25 @@ fetch('/api/version')
 
       <section id="faq">
         <div class="card" style="margin-top:14px">
-          <h3>Часто задаваемые вопросы</h3>
+          <h3>Frequently Asked Questions</h3>
           <div class="faq" style="margin-top:12px">
             <div class="qa">
-              <b>Как установить?</b>
-              <div class="muted" style="margin-top:6px">Скачайте архив и следуйте инструкции в README.</div>
+              <b>How to install?</b>
+              <div class="muted" style="margin-top:6px">Download the ZIP and follow instructions inside README.</div>
             </div>
             <div class="qa">
-              <b>Нужен ли ключ?</b>
-              <div class="muted" style="margin-top:6px">В этом шаблоне предусмотрена работа с ключом — замените генерацию на серверную, если нужен реальный ключ.</div>
+              <b>Do I need a key?</b>
+              <div class="muted" style="margin-top:6px">No keys are required for Moon.</div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section id="contact">
-        <div class="card" style="margin-top:14px">
-          <h3 id="contact">Контакты</h3>
-          <p class="muted">Есть вопросы? Напишите короткое сообщение.</p>
-          <form id="contactForm" style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
-            <input type="text" placeholder="Ваш ник или имя" id="name" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" required>
-            <input type="email" placeholder="Email" id="email" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit">
-            <textarea placeholder="Сообщение" id="message" rows="4" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"></textarea>
-            <div style="display:flex;gap:8px">
-              <button class="btn primary" type="submit">Отправить</button>
-              <button class="btn" type="reset">Очистить</button>
-            </div>
-            <div id="formResult" class="tiny muted"></div>
-          </form>
         </div>
       </section>
     </main>
 
     <footer>
-      <div class="tiny">© Moon — 2025. Создано на HTML/CSS/JS.</div>
-      <div class="tiny">Версия <strong>v1.0.0</strong></div>
+      <div class="tiny">© Moon — 2025. Built with HTML/CSS/JS.</div>
+      <div class="tiny">Version <strong>v1.0.0</strong></div>
     </footer>
   </div>
-
-  <script>
-    // Theme toggle (simple demo)
-    const themeBtn = document.getElementById('themeBtn');
-    themeBtn.addEventListener('click', ()=>{
-      if(document.documentElement.style.getPropertyValue('--bg') === '#0b1020'){
-        document.documentElement.style.setProperty('--bg','#f6f8fb');
-        document.documentElement.style.setProperty('--card','#ffffff');
-        document.documentElement.style.setProperty('--muted','#42516a');
-        document.documentElement.style.setProperty('--accent','#7c5cff');
-      } else {
-        document.documentElement.style.setProperty('--bg','#0b1020');
-        document.documentElement.style.setProperty('--card','#0f1724');
-        document.documentElement.style.setProperty('--muted','#9aa4bf');
-      }
-    });
-
-    // Fake key generation (replace with server-side in production)
-    function genKey(){
-      const chunks = [];
-      for(let i=0;i<5;i++){
-        chunks.push(Math.random().toString(36).substring(2,7).toUpperCase());
-      }
-      return chunks.join('-');
-    }
-
-    const keyText = document.getElementById('keyText');
-    const copyKey = document.getElementById('copyKey');
-    document.getElementById('btnDownload').addEventListener('click', ()=>{
-      // simulate download
-      keyText.textContent = genKey();
-      // start a fake file download for demo purposes
-      const blob = new Blob(["This is a demo file for Moon."],{type:'text/plain'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'moon-demo.txt';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
-    });
-
-    copyKey.addEventListener('click', ()=>{
-      const text = keyText.textContent;
-      navigator.clipboard?.writeText(text).then(()=>{
-        copyKey.textContent = 'Copied';
-        setTimeout(()=>copyKey.textContent='Copy',900);
-      }).catch(()=>{
-        alert('Не удалось скопировать');
-      })
-    });
-
-    // Contact form (demo only)
-    const form = document.getElementById('contactForm');
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const res = document.getElementById('formResult');
-      res.textContent = 'Сообщение отправлено (демо). Спасибо!';
-      form.reset();
-    });
-
-    // Small accessibility: focus outline
-    document.addEventListener('keyup', (e)=>{
-      if(e.key === 'Tab') document.body.classList.add('show-focus');
-    });
-  </script>
 </body>
 </html>
