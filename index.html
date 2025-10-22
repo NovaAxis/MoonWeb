@@ -16,17 +16,50 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    height: 100vh;
     overflow-x: hidden;
     color: #e6eef8;
     font-family: Inter, system-ui, sans-serif;
     background: linear-gradient(180deg, var(--bg1), var(--bg2));
-    animation: fadeIn 1.4s ease forwards;
+    opacity: 0;
+    transition: opacity 1s ease;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+  body.loaded {
+    opacity: 1;
+  }
+
+  /* === PRELOADER === */
+  #preloader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: #050510;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+
+  #preloader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  #preloader h1 {
+    font-size: 26px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(124,92,255,0.8);
+    margin-bottom: 12px;
+  }
+
+  #progress {
+    font-size: 18px;
+    color: #7c5cff;
+    text-shadow: 0 0 10px rgba(124,92,255,0.6);
+    letter-spacing: 1px;
   }
 
   canvas#particles {
@@ -45,6 +78,11 @@
     margin: 40px auto;
     padding: 24px;
     animation: fadeIn 1.4s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   header {
@@ -118,7 +156,6 @@
     border: 1px solid rgba(255,255,255,0.05);
     padding: 24px;
     backdrop-filter: blur(6px);
-    animation: fadeIn 1.5s ease;
   }
 
   .muted { color: var(--muted); font-size: 13px; }
@@ -165,6 +202,13 @@
 </style>
 </head>
 <body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <h1>Moon Loading...</h1>
+  <div id="progress">0%</div>
+</div>
+
 <canvas id="particles"></canvas>
 
 <div class="container">
@@ -216,30 +260,10 @@
       <div class="card" style="margin-top:20px">
         <h3>Frequently Asked Questions</h3>
         <div class="faq-container">
-          <div class="faq-card">
-            <b>How to download and run Moon?</b>
-            <div class="muted" style="margin-top:6px">
-              Click <strong>Download Moon</strong>, extract the ZIP file, then run <strong>Moon.exe</strong>.
-            </div>
-          </div>
-          <div class="faq-card">
-            <b>Does Moon have a Key System?</b>
-            <div class="muted" style="margin-top:6px">
-              No. Moon is fully <strong>free</strong> — no key system, no CC, 100% safe.
-            </div>
-          </div>
-          <div class="faq-card">
-            <b>What API does Moon use?</b>
-            <div class="muted" style="margin-top:6px">
-              Moon is based on <strong>QuorumAPI (Xeno)</strong>. Trusted and stable integration.
-            </div>
-          </div>
-          <div class="faq-card">
-            <b>Is Moon malware?</b>
-            <div class="muted" style="margin-top:6px">
-              No. Moon is completely safe. Any antivirus alerts are false positives due to API encryption.
-            </div>
-          </div>
+          <div class="faq-card"><b>How to download and run Moon?</b><div class="muted" style="margin-top:6px">Click <strong>Download Moon</strong>, extract the ZIP file, then run <strong>Moon.exe</strong>.</div></div>
+          <div class="faq-card"><b>Does Moon have a Key System?</b><div class="muted" style="margin-top:6px">No. Moon is fully <strong>free</strong> — no key system, no CC, 100% safe.</div></div>
+          <div class="faq-card"><b>What API does Moon use?</b><div class="muted" style="margin-top:6px">Moon is based on <strong>QuorumAPI (Xeno)</strong>. Trusted and stable integration.</div></div>
+          <div class="faq-card"><b>Is Moon malware?</b><div class="muted" style="margin-top:6px">No. Moon is completely safe. Any antivirus alerts are false positives due to API encryption.</div></div>
         </div>
       </div>
     </section>
@@ -252,7 +276,25 @@
 </div>
 
 <script>
-  // Particle background
+  // === Preloader ===
+  const preloader = document.getElementById("preloader");
+  const progress = document.getElementById("progress");
+  let percent = 0;
+  const duration = Math.random() * 2000 + 1000; // 1–3 seconds
+
+  const interval = setInterval(() => {
+    percent += Math.random() * 8;
+    if (percent >= 100) {
+      percent = 100;
+      clearInterval(interval);
+      preloader.classList.add("fade-out");
+      document.body.classList.add("loaded");
+      setTimeout(() => preloader.remove(), 800);
+    }
+    progress.textContent = Math.floor(percent) + "%";
+  }, duration / 30);
+
+  // === Particles ===
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
   let particlesArray;
