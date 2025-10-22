@@ -1,166 +1,336 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Moon — Loader & Hub</title>
-  <meta name="description" content="Moon — fast modern loader with QuorumAPI (Xeno) support." />
-  <style>
-    :root{
-      --bg:#0b1020; --card:#0f1724; --muted:#9aa4bf; --accent:#7c5cff; --glass:rgba(255,255,255,0.04);
-      --mono: 'Segoe UI Mono', Consolas, monospace;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#e6eef8;background:linear-gradient(180deg,#05060a 0%, var(--bg) 100%)}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:36px auto;padding:24px}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Moon — Loader & Hub</title>
+<meta name="description" content="Moon — fast modern loader with QuorumAPI (Xeno) support." />
+<style>
+  :root {
+    --bg1: #050510;
+    --bg2: #0b0f25;
+    --accent: #7c5cff;
+    --muted: #9aa4bf;
+  }
 
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#3b82f6);display:grid;place-items:center;color:white;font-weight:700;box-shadow:0 6px 24px rgba(124,92,255,0.14)}
-    .brand h1{margin:0;font-size:18px}
-    .brand p{margin:0;font-size:12px;color:var(--muted)}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    nav{display:flex;gap:10px;align-items:center}
-    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:10px 14px;border-radius:10px;color:#e9f0ff;font-weight:600;cursor:pointer}
-    .btn:hover{transform:translateY(-2px)}
-    .primary{background:linear-gradient(90deg,var(--accent),#4f46e5);box-shadow:0 8px 30px rgba(79,70,229,0.12)}
+  body {
+    height: 100vh;
+    overflow-x: hidden;
+    color: #e6eef8;
+    font-family: Inter, system-ui, sans-serif;
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+  }
 
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;margin-top:28px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.03)}
+  canvas#particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: radial-gradient(circle at 20% 20%, #0c1028, #050510 90%);
+  }
 
-    .hero h2{margin:6px 0 8px;font-size:26px}
-    .hero p{margin:0;color:var(--muted)}
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 24px;
+  }
 
-    .features{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
-    .feature{flex:1 1 160px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
-    .feature h4{margin:0 0 6px}
-    .muted{color:var(--muted);font-size:13px}
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
 
-    .right .panel{display:flex;flex-direction:column;gap:12px}
-    .download{display:flex;gap:8px;align-items:center}
-    .download .big{padding:12px 14px;border-radius:12px;font-weight:700}
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-    .specs{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-    .spec{background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;min-width:110px}
+  .logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.2), transparent 60%);
+    box-shadow: 0 0 25px rgba(124, 92, 255, 0.4);
+    display: grid;
+    place-items: center;
+  }
 
-    main section{margin-top:22px}
+  .logo img {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    filter: drop-shadow(0 0 15px rgba(124, 92, 255, 0.6));
+  }
 
-    .faq{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .faq .qa{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px}
+  .brand h1 {
+    font-size: 20px;
+    font-weight: 700;
+  }
 
-    footer{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);display:flex;justify-content:space-between;align-items:center}
+  .brand p {
+    color: var(--muted);
+    font-size: 12px;
+  }
 
-    @media (max-width:880px){
-      .hero{grid-template-columns:1fr;}
-      .faq{grid-template-columns:1fr}
-      .container{padding:16px}
-    }
+  nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
 
-    .tiny{font-size:12px;color:var(--muted)}
-    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700}
-  </style>
+  .btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: all .25s ease;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    box-shadow: 0 0 16px rgba(124, 92, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .primary {
+    background: linear-gradient(90deg, var(--accent), #4f46e5);
+    box-shadow: 0 0 25px rgba(124, 92, 255, 0.35);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 28px;
+    margin-top: 40px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 24px;
+    backdrop-filter: blur(6px);
+  }
+
+  .hero h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .hero p {
+    color: var(--muted);
+  }
+
+  .features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .feature {
+    flex: 1 1 160px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .feature h4 {
+    margin-bottom: 6px;
+  }
+
+  .muted {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .right .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .specs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .spec {
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 110px;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding: 18px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width:880px){
+    .hero { grid-template-columns: 1fr; }
+    .container { padding: 16px; }
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="brand">
-        <div class="logo">M</div>
-        <div>
-          <h1>Moon</h1>
-          <p>Loader • Hub</p>
-        </div>
+<canvas id="particles"></canvas>
+
+<div class="container">
+  <header>
+    <div class="brand">
+      <div class="logo"><img src="moon(1).png" alt="Moon Logo"></div>
+      <div>
+        <h1>Moon</h1>
+        <p>Loader • Hub</p>
       </div>
-      <nav>
-        <a class="btn primary" href="https://github.com/NovaAxis/MoonWeb/raw/refs/heads/main/Moon.zip">Download</a>
-      </nav>
-    </header>
+    </div>
+    <nav>
+      <a class="btn primary" href="https://github.com/NovaAxis/MoonWeb/raw/refs/heads/main/Moon.zip">Download</a>
+    </nav>
+  </header>
 
-    <div class="hero">
-      <div class="card">
-        <h2>Moon - Fast & Modern UI</h2>
-        <p>Everything is well built, based on trusted API, supports all scripts, and the download link is real and direct.</p>
+  <div class="hero">
+    <div class="card">
+      <h2>Moon — Fast & Modern UI</h2>
+      <p>Everything is well built, based on trusted API, supports all scripts, and the download link is real and direct.</p>
 
-        <div class="features" style="margin-top:18px">
-          <div class="feature">
-            <h4>95% UNC & 92% sUNC</h4>
-            <div class="muted">Supports all scripts.</div>
-          </div>
-          <div class="feature">
-            <h4><a href="https://discord.gg/5Tfhd8P7b2" target="_blank" style="color:var(--accent)">Moon based on QuorumAPI (Xeno)</a></h4>
-            <div class="muted">Trusted and stable integration.</div>
-          </div>
-          <div class="feature">
-            <h4>Clean Interface</h4>
-            <div class="muted">Minimalistic and fast.</div>
-          </div>
+      <div class="features">
+        <div class="feature">
+          <h4>95% UNC & 92% sUNC</h4>
+          <div class="muted">Supports all scripts.</div>
         </div>
-
-        <div style="margin-top:18px">
-          <h3 style="margin:0 0 8px">What's new</h3>
-          <ul class="muted" style="margin:0;padding-left:18px">
-            <li>New UI with improved design</li>
-            <li>Full QuorumAPI (Xeno) support</li>
-            <li>Clean and responsive interface</li>
-          </ul>
+        <div class="feature">
+          <h4><a href="https://discord.gg/5Tfhd8P7b2" target="_blank" style="color:var(--accent)">Moon based on QuorumAPI (Xeno)</a></h4>
+          <div class="muted">Trusted and stable integration.</div>
+        </div>
+        <div class="feature">
+          <h4>Clean Interface</h4>
+          <div class="muted">Minimalistic and fast.</div>
         </div>
       </div>
 
-      <aside class="right">
-        <div class="card panel">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div class="tiny">Current version</div>
-              <div style="font-weight:800">v1.0.0</div>
-            </div>
-            <div class="pill">Stable</div>
-          </div>
-
-          <div class="download" style="margin-top:12px">
-            <a class="btn big primary" href="https://github.com/NovaAxis/MoonWeb/raw/refs/heads/main/Moon.zip">Download Moon</a>
-          </div>
-
-          <div class="specs">
-            <div class="spec"><div class="tiny">Size</div><div style="font-weight:700">18.1 MB</div></div>
-            <div class="spec"><div class="tiny">OS</div><div style="font-weight:700">Windows</div></div>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:12px">
-          <h4 style="margin:0 0 8px">Quick Links</h4>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <a class="btn" href="#faq">FAQ</a>
-          </div>
-        </div>
-      </aside>
+      <div style="margin-top:20px">
+        <h3 style="margin-bottom:8px">What's new</h3>
+        <ul class="muted" style="margin-left:18px">
+          <li>New UI with improved design</li>
+          <li>Full QuorumAPI (Xeno) support</li>
+          <li>Clean and responsive interface</li>
+        </ul>
+      </div>
     </div>
 
-    <main>
-      <section id="faq">
-        <div class="card" style="margin-top:14px">
-          <h3>Frequently Asked Questions</h3>
-          <div class="faq" style="margin-top:12px">
-            <div class="qa">
-              <b>How to install?</b>
-              <div class="muted" style="margin-top:6px">Download the ZIP and run Moon.exe and enjoy 😃</div>
-            </div>
-            <div class="qa">
-              <b>Do I need a key for Moon?</b>
-              <div class="muted" style="margin-top:6px">No keys are required for Moon.</div>
-            </div>
-            <div class="qa">
-              <b>Moon malware?</b>
-              <div class="muted" style="margin-top:6px">No, antivirus detects false positives due to QuorumAPI (Xeno).</div>
-            </div>
+    <aside class="right">
+      <div class="card panel">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="muted" style="font-size:12px">Current version</div>
+            <div style="font-weight:800">v1.0.0</div>
           </div>
+          <div style="padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700">Stable</div>
         </div>
-      </section>
-    </main>
 
-    <footer>
-      <div class="tiny">© Moon — 2025. Built with HTML/CSS/JS.</div>
-      <div class="tiny">Version <strong>v1.0.0</strong></div>
-    </footer>
+        <div class="specs">
+          <div class="spec"><div class="muted">Size</div><div style="font-weight:700">18.1 MB</div></div>
+          <div class="spec"><div class="muted">OS</div><div style="font-weight:700">Windows</div></div>
+        </div>
+
+        <a class="btn big primary" href="https://github.com/NovaAxis/MoonWeb/raw/refs/heads/main/Moon.zip">Download Moon</a>
+      </div>
+    </aside>
   </div>
+
+  <footer>
+    <div>© Moon — 2025. Built with HTML/CSS/JS.</div>
+    <div>Version <strong>v1.0.0</strong></div>
+  </footer>
+</div>
+
+<script>
+  // Particles Background
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particlesArray;
+  const colors = ['#7c5cff', '#a78bfa', '#4f46e5'];
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+
+  window.addEventListener('resize', () => {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+    init();
+  });
+
+  class Particle {
+    constructor(x, y, directionX, directionY, size, color) {
+      this.x = x;
+      this.y = y;
+      this.directionX = directionX;
+      this.directionY = directionY;
+      this.size = size;
+      this.color = color;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = this.color;
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+    update() {
+      if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+      if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+      this.x += this.directionX;
+      this.y += this.directionY;
+      this.draw();
+    }
+  }
+
+  function init() {
+    particlesArray = [];
+    const num = Math.floor((canvas.width * canvas.height) / 15000);
+    for (let i = 0; i < num; i++) {
+      let size = Math.random() * 2 + 1;
+      let x = Math.random() * (innerWidth - size * 2);
+      let y = Math.random() * (innerHeight - size * 2);
+      let directionX = (Math.random() - 0.5) * 0.6;
+      let directionY = (Math.random() - 0.5) * 0.6;
+      let color = colors[Math.floor(Math.random() * colors.length)];
+      particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+    }
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    for (let i = 0; i < particlesArray.length; i++) {
+      particlesArray[i].update();
+    }
+  }
+
+  init();
+  animate();
+</script>
 </body>
 </html>
